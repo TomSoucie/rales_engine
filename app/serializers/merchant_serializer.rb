@@ -5,4 +5,5 @@ class MerchantSerializer < ActiveModel::Serializer
   has_many :invoices
   has_many :customers
 
+  # has_many :customers, through: :invoices
 end
