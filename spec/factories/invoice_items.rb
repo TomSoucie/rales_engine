@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :invoices_item do
+  factory :invoice_item do
     item
     invoice
     quantity 1
