@@ -35,16 +35,16 @@ describe "Items API" do
     end
   end
 
-  context "it can find items" do
-    xit "finds one item by id" do
-     new_item = create(:item)
+  context "it can find items in many ways" do
+     it "finds one item by id" do
+     raw_item = create(:item)
 
-     get "/api/v1/items/find?id=#{new_item.id}"
+     get "/api/v1/items/find?id=#{raw_item.id}"
 
      item = JSON.parse(response.body)
 
      expect(response).to be_success
-     expect(item["id"]).to eq(new_item.id)
+     expect(item["id"]).to eq(raw_item.id)
    end
 
    xit "finds one item by name, case-insensitve" do
