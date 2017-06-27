@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 describe "Invoice-Items API" do
-  context "GET /api/v1/invoices_items" do
-    it "sends a list of invoices/items" do
+  context "GET /api/v1/invoice_items" do
+    it "sends a list of invoice/items" do
       create_list(:invoice_item, 3)
 
-      get "/api/v1/invoices_items"
+      get "/api/v1/invoice_items"
 
       expect(response).to have_http_status(200)
 
-      invoices_items = JSON.parse(response.body)
-      invoices_item = invoices_items.first
+      invoice_items = JSON.parse(response.body)
+      invoice_item = invoice_items.first
 
-      expect(invoices_items.count).to eq(3)
-      expect(invoices_item).to have_key("quantity")
-      expect(invoices_item["quantity"]).to be_a String
-      expect(invoices_item).to have_key("unit_price")
-      expect(invoices_item["unit_price"]).to be_a String
+      expect(invoice_items.count).to eq(3)
+      expect(invoice_item).to have_key("quantity")
+      expect(invoice_item["quantity"]).to be_a Integer
+      expect(invoice_item).to have_key("unit_price")
+      expect(invoice_item["unit_price"]).to be_a Integer
     end
   end
 
@@ -30,7 +30,7 @@ describe "Invoice-Items API" do
 
       expect(response).to have_http_status(200)
       expect(invoices_item["id"]).to eq(id)
-      expect(invoices_item["quantity"]).to be_a String
+      expect(invoices_item["quantity"]).to be_a Integer
       expect(invoices_item["unit_price"]).to be_a Integer
     end
   end

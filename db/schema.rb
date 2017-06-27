@@ -43,15 +43,6 @@ ActiveRecord::Schema.define(version: 20170627202358) do
     t.index ["merchant_id"], name: "index_invoices_on_merchant_id"
   end
 
-  create_table "invoices_items", force: :cascade do |t|
-    t.bigint "item_id"
-    t.bigint "invoice_id"
-    t.integer "quantity"
-    t.integer "unit_price"
-    t.index ["invoice_id"], name: "index_invoices_items_on_invoice_id"
-    t.index ["item_id"], name: "index_invoices_items_on_item_id"
-  end
-
   create_table "items", force: :cascade do |t|
     t.text "name"
     t.text "description"
