@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20170627190836) do
     t.index ["invoice_id"], name: "index_invoices_items_on_invoice_id"
     t.index ["item_id"], name: "index_invoices_items_on_item_id"
   end
-
+  
   create_table "items", force: :cascade do |t|
     t.text "name"
     t.text "description"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20170627190836) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.bigint "invoice_id"
     t.string "credit_card_number"
     t.string "credit_card_expiration_date"
     t.string "result"

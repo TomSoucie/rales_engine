@@ -31,17 +31,3 @@ describe "Merchants API" do
     expect(raw_merchant["name"]).to be_a String
   end
 end
-
-context "POST /api/v1/merchants" do
-  it "creates a merchant with valid params" do
-    merchant_params = {
-      name: "Onnit"
-    }
-    expect {
-      post "/api/v1/merchants", params: merchant_params
-    }.to change {Merchant.count}.by(1)
-
-    expect(response).to be_success
-    expect(response).to have_http_status(200)
-  end
-end

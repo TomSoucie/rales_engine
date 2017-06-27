@@ -4,4 +4,4 @@ FactoryGirl.define do
     merchant
     status "shipped"
   end
-end 
+end
