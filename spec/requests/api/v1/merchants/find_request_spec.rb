@@ -63,7 +63,6 @@ describe "Merchants can be found from url params" do
 
   it "finds a random merchant" do
     create_list(:merchant, 3)
-    # ids = merchants.map { |m| m.id }
 
     get "/api/v1/merchants/random"
     expect(response).to be_success
@@ -71,6 +70,6 @@ describe "Merchants can be found from url params" do
     merchant = JSON.parse(response.body)
     merchant_ids = Merchant.all.map { |m| m.id }
 
-    expect(merchant_ids).to include(merchant["id"])    
+    expect(merchant_ids).to include(merchant["id"])
   end
 end
