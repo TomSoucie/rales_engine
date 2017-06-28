@@ -1,71 +1,37 @@
 require 'rails_helper'
 
-describe "Invoices API" do
-  context "GET /api/v1/invoices" do
-    it "sends a list of invoices" do
-      create_list(:invoice, 3)
+describe "it can find invoices in many ways" do
+  it "finds one invoice by id" do
+    raw_invoice = create(:invoice)
 
-      get "/api/v1/invoices"
+    get "/api/v1/invoices/find?id=#{raw_invoice.id}"
 
-      expect(response).to be_success
+    invoice = JSON.parse(response.body)
 
-      invoices = JSON.parse(response.body)
-      invoice = invoices.first
-
-      expect(invoices.count).to eq(3)
-      expect(invoice).to have_key("status")
-      expect(invoice["status"]).to be_a String
-      expect(invoice).to have_key("customer_id")
-      expect(invoice["customer_id"]).to be_a Integer
-    end
+    expect(response).to be_success
+    expect(invoice["id"]).to eq(raw_invoice.id)
   end
 
-  context "GET /api/v1/invoices/:id" do
-    it "can get one invoice by its id" do
-      id = create(:invoice).id
+  it "finds one invoice by status" do
+    raw_invoice = create(:invoice)
 
-      get "/api/v1/invoices/#{id}"
+    get "/api/v1/invoices/find?status=#{raw_invoice.status}"
 
-      invoice = JSON.parse(response.body)
+    invoice = JSON.parse(response.body)
 
-      expect(response).to have_http_status(200)
-      expect(invoice["id"]).to eq(id)
-      expect(invoice["status"]).to be_a String
-    end
+    expect(response).to be_success
+    expect(invoice["status"]).to eq(raw_invoice.status)
   end
 
-  context "it can find invoices in many ways" do
-    it "finds one invoice by id" do
-      raw_invoice = create(:invoice)
+  it "finds one invoice by merchant" do
+    raw_invoice = create(:invoice)
 
-      get "/api/v1/invoices/find?id=#{raw_invoice.id}"
+    get "/api/v1/invoices/find?merchant_id=#{raw_invoice.merchant.id}"
 
-      invoice = JSON.parse(response.body)
+    invoice = JSON.parse(response.body)
 
-      expect(response).to be_success
-      expect(invoice["id"]).to eq(raw_invoice.id)
-   end
-
-    xit "finds one invoice by status, case-insensitve" do
-      raw_invoice = create(:invoice)
-
-      get "/api/v1/invoices/find?status=#{raw_invoice.status.upcase}"
-
-      invoice = JSON.parse(response.body)
-
-      expect(response).to be_success
-      expect(invoice["status"]).to eq(raw_invoice.status)
-    end
-
-   it "finds one invoice by merchant" do
-     raw_invoice = create(:invoice)
-
-     get "/api/v1/invoices/find?merchant_id=#{raw_invoice.merchant.id}"
-
-     invoice = JSON.parse(response.body)
-
-     expect(response).to be_success
-     expect(invoice["merchant_id"]).to eq(raw_invoice.merchant.id)
+    expect(response).to be_success
+    expect(invoice["merchant_id"]).to eq(raw_invoice.merchant.id)
    end
 
    it "finds one invoice by customer" do
@@ -125,10 +91,10 @@ describe "Invoices API" do
      expect(invoices.first["id"]).to eq(raw_invoices.first.id)
    end
 
-   xit "finds all invoices by status, case-insensitve" do
+   it "finds all invoices by status" do
        create_list(:invoice, 2, status: "shipped")
 
-       get "/api/v1/invoices/find_all?status=SHIPPED"
+       get "/api/v1/invoices/find_all?status=shipped"
 
        invoices = JSON.parse(response.body)
 
@@ -168,5 +134,4 @@ describe "Invoices API" do
          expect(invoice["merchant_id"]).to eq(merchant.id)
        end
      end
-   end
-end
+  end

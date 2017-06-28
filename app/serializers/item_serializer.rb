@@ -3,4 +3,9 @@ class ItemSerializer < ActiveModel::Serializer
 
   has_many :invoice_items
   has_many :invoices
+
+
+  def unit_price
+    sprintf('%.2f', (object.unit_price/100))
+  end
 end
