@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Merchants can be found from url params" do
-  it "find a single merchant by id" do
+  it "finds a single merchant by id" do
     merchants = create_list(:merchant, 3)
     id = merchants.first.id
 

@@ -19,7 +19,7 @@ describe "Merchants have relationships with items and invoices" do
   end
 
   context "GET to merchants/:id/items" do
-    xit "returns associated collection of items" do
+    it "returns associated collection of items" do
       merchant = create(:merchant)
 
       items = create_list(:item, 2, merchant_id: merchant.id)
@@ -30,8 +30,8 @@ describe "Merchants have relationships with items and invoices" do
 
       expect(response).to be_success
       expect(items).to be_instance_of(Array)
-      items.each do |i|
-        expect(i["merchant_id"]).to eq(merchant.id)
+      items.each do |item|
+        expect(item["merchant_id"]).to eq(merchant.id)
       end
     end
   end
