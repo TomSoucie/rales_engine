@@ -3,16 +3,18 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       namespace :items do
-        get '/find', to: 'items#show'
+        get 'find_all', to: 'finder#index'
+        get 'find',     to: 'finder#show'
+        get 'random',   to: 'random#show'
       end
 
-      namespace :invoices do
-        get '/find', to: 'invoices#show'
-      end
-
-      namespace :invoice_items do
-        get '/find', to: 'invoice_items#show' 
-      end
+      # namespace :invoices do
+      #   get '/find', to: 'invoices#show'
+      # end
+      #
+      # namespace :invoice_items do
+      #   get '/find', to: 'invoice_items#show'
+      # end
 
       resources :items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
