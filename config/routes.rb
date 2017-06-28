@@ -8,6 +8,18 @@ Rails.application.routes.draw do
         get 'random',   to: 'random#show'
       end
 
+      namespace :invoices do
+        get 'find_all', to: 'finder#index'
+        get 'find',     to: 'finder#show'
+        get 'random',   to: 'random#show'
+      end
+      
+      namespace :invoice_items do
+        get 'find_all', to: 'finder#index'
+        get 'find',     to: 'finder#show'
+        get 'random',   to: 'random#show'
+      end
+
       # namespace :invoices do
       #   get '/find', to: 'invoices#show'
       # end
