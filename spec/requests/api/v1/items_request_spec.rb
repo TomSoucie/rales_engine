@@ -209,7 +209,8 @@ describe "Items API" do
       expect(invoice_items).to be_instance_of(Array)
       expect(invoice_items.count).to eq(2)
 
-      invoice_items.each do |invoice_item|         expect(invoice_item["item_id"]).to eq(raw_item.id)
+      invoice_items.each do |invoice_item|
+        expect(invoice_item["item_id"]).to eq(raw_item.id)
       end
      end
    end
