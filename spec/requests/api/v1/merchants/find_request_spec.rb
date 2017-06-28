@@ -16,7 +16,7 @@ describe "Merchants can be found from url params" do
     expect(merchant["id"]).to eq(id)
   end
 
-  xit "finds a merchant by name" do
+  it "finds a merchant by name" do
     merchants = create_list(:merchant, 3)
     name = merchants.first.name
 
@@ -31,9 +31,9 @@ describe "Merchants can be found from url params" do
     expect(merchant["name"]).to eq(name)
   end
 
-  xit "finds a merchant by created_at" do
-    merchants = create_list(:merchant, 3)
-    create_time = merchants.first.created_at
+  it "finds a merchant by created_at" do
+    raw_merchant = create(:merchant)
+    create_time = raw_merchant.created_at
 
     get "/api/v1/merchants/find?created_at=#{create_time}"
 
@@ -41,13 +41,14 @@ describe "Merchants can be found from url params" do
 
     merchant = JSON.parse(response.body)
 
-    expect(merchant).to have_key("created_at")
-    expect(merchant["created_at"]).to be_a String
-    expect(merchant["created_at"]).to eq(create_time)
+    expect(merchant["id"]).to eq(raw_merchant.id)
+    # expect(merchant).to have_key("created_at")
+    # expect(merchant["created_at"]).to be_a String
+    # expect(merchant["created_at"]).to eq(create_time)
   end
 
-  xit "finds a merchant by updated_at" do
-    merchants = create_list(:merchant, 3)
+  it "finds a merchant by updated_at" do
+    raw_merchant = create(:merchant)
     update_time = merchants.first.updated_at
 
     get "/api/v1/merchants/find?updated_at=#{update_time}"
@@ -56,8 +57,21 @@ describe "Merchants can be found from url params" do
 
     merchant = JSON.parse(response.body)
 
-    expect(merchant).to have_key("updated_at")
-    expect(merchant["updated_at"]).to be_a String
-    expect(merchant["updated_at"]).to eq(update_time)
+    expect(merchant["id"]).to eq(raw_merchant.id)
+    # expect(merchant).to have_key("updated_at")
+    # expect(merchant["updated_at"]).to be_a String
+    # expect(merchant["updated_at"]).to eq(update_time)
+  end
+
+  it "finds a random merchant" do
+    merchants = create_list(:merchant, 3)
+
+    get "/api/v1/merchants/random"
+    expect(response).to be_success
+
+    merchant = JSON.parse(response.body)
+    ids = merchants.map { |merchant| merchant.id }
+
+    expect(ids).to include(merchant.id)
   end
 end
