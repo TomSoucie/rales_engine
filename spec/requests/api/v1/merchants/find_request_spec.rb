@@ -43,6 +43,22 @@ describe "Merchant url params returns single merchant" do
 
     expect(merchant).to have_key("created_at")
     expect(merchant["created_at"]).to be_a String
-    expect(merchant["created_at"]).to eq(create_time)    
+    expect(merchant["created_at"]).to eq(create_time)
   end
+
+  xit "finds a merchant by updated_at" do
+    merchants = create_list(:merchant, 3)
+    update_time = merchants.first.updated_at
+
+    get "/api/v1/merchants/find?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    merchant = JSON.parse(response.body)
+
+    expect(merchant).to have_key("updated_at")
+    expect(merchant["updated_at"]).to be_a String
+    expect(merchant["updated_at"]).to eq(update_time)
+  end
+
 end
