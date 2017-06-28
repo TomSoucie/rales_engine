@@ -3,9 +3,11 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       namespace :items do
-        get 'find_all', to: 'finder#index'
-        get 'find',     to: 'finder#show'
-        get 'random',   to: 'random#show'
+        get 'find_all',           to: 'finder#index'
+        get 'find',               to: 'finder#show'
+        get 'random',             to: 'random#show'
+        get ':id/invoice_items',  to: 'invoice_items#index'
+        get ':id/merchant',       to: 'merchant#show'
       end
 
       namespace :invoices do
@@ -13,11 +15,13 @@ Rails.application.routes.draw do
         get 'find',     to: 'finder#show'
         get 'random',   to: 'random#show'
       end
-      
+
       namespace :invoice_items do
-        get 'find_all', to: 'finder#index'
-        get 'find',     to: 'finder#show'
-        get 'random',   to: 'random#show'
+        get 'find_all',    to: 'finder#index'
+        get 'find',        to: 'finder#show'
+        get 'random',      to: 'random#show'
+        get ':id/invoice', to: 'invoice#show'
+        get ':id/item',    to: 'item#show'
       end
 
       # namespace :invoices do

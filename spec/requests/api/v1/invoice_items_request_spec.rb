@@ -114,17 +114,18 @@ describe "Invoice-Items API" do
      expect(invoice_item["id"]).to eq(raw_invoice_item.id)
    end
 
-   it "finds random invoice item" do
-     create_list(:invoice_item, 2)
+   it "finds a random invoice item" do
+    create_list(:invoice_item, 2)
 
-     get "/api/v1/invoice_items/random"
+    get "/api/v1/invoice_items/random"
 
-     raw_invoice_item = JSON.parse(response.body)
-     raw_invoice_item_ids = Item.all.map { |invoice_item| invoice_item.id }
+    invoice_item = JSON.parse(response.body)
 
-     expect(response).to be_success
-     expect(raw_invoice_item_ids).to include(raw_invoice_item["id"])
-   end
+    invoice_item_ids = InvoiceItem.all.map { |invoice_item| invoice_item.id }
+
+    expect(response).to be_success
+    expect(invoice_item_ids).to include(invoice_item["id"])
+  end
 
    it "finds all invoice items by id" do
      raw_invoice_items = create_list(:invoice_item, 2)
@@ -175,7 +176,7 @@ describe "Invoice-Items API" do
        expect(response).to be_success
        expect(invoice_items).to be_instance_of(Array)
        invoice_items.each do |invoice_item|
-         expect(invoice_item["merchant_id"]).to eq(merchant.id)
+         expect(invoice_item["item_id"]).to eq(item.id)
        end
     end
 
@@ -193,5 +194,35 @@ describe "Invoice-Items API" do
          expect(invoice_item["invoice_id"]).to eq(invoice.id)
        end
     end
+
+    require 'rails_helper'
+
+  context "get to invoice_items/:id/invoice" do
+    it "returns the associated invoice" do
+      raw_invoice = create(:invoice)
+      invoice_item = create(:invoice_item, invoice_id: raw_invoice.id)
+
+      get "/api/v1/invoice_items/#{invoice_item.id}/invoice"
+      invoice = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(invoice).to be_instance_of(Hash)
+      expect(invoice["id"]).to eq(raw_invoice.id)
+    end
+   end
+
+  context "get to invoice_items/:id/item" do
+    it "returns the associated item" do
+      raw_item = create(:item)
+      invoice_item = create(:invoice_item, item_id: raw_item.id)
+
+      get "/api/v1/invoice_items/#{invoice_item.id}/item"
+      item = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(item).to be_instance_of(Hash)
+      expect(item["id"]).to eq(raw_item.id)
+    end
+   end
   end
 end
