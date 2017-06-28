@@ -26,6 +26,9 @@ gem 'puma', '~> 3.7'
 # gem 'rack-cors'
 
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'route_downcaser'
+gem 'simplecov', :require => false, :group => :test
+gem 'docile'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -29,4 +29,9 @@ class Invoice < ApplicationRecord
   #     .limit(limit)
   # end
 
+  def self.random
+    offset = rand(Invoice.count)
+    Invoice.offset(offset).first
+  end
+
 end
