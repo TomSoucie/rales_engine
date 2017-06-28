@@ -11,12 +11,12 @@ describe "Invoice-Items API" do
 
       invoice_items = JSON.parse(response.body)
       invoice_item = invoice_items.first
-
+# binding.pry
       expect(invoice_items.count).to eq(3)
       expect(invoice_item).to have_key("quantity")
       expect(invoice_item["quantity"]).to be_a Integer
       expect(invoice_item).to have_key("unit_price")
-      expect(invoice_item["unit_price"]).to be_a Integer
+      expect(invoice_item["unit_price"]).to be_a String
     end
   end
 
@@ -26,12 +26,12 @@ describe "Invoice-Items API" do
 
       get "/api/v1/invoice_items/#{id}"
 
-      invoices_item = JSON.parse(response.body)
+      invoice_item = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
-      expect(invoices_item["id"]).to eq(id)
-      expect(invoices_item["quantity"]).to be_a Integer
-      expect(invoices_item["unit_price"]).to be_a Integer
+      expect(invoice_item["id"]).to eq(id)
+      expect(invoice_item["quantity"]).to be_a Integer
+      expect(invoice_item["unit_price"]).to be_a String
     end
   end
 
@@ -47,14 +47,14 @@ describe "Invoice-Items API" do
       expect(invoice_item["id"]).to eq(raw_invoice_item.id)
    end
 
-   xit "finds one invoice item by unit price" do
+   it "finds one invoice item by unit price" do
      raw_invoice_item = create(:invoice_item)
 
      get "/api/v1/invoice_items/find?unit_price=#{raw_invoice_item.unit_price}"
 
      invoice_item = JSON.parse(response.body)
 
-     expected_price = "#{'%.2f' % (raw_invoice_item.unit_price/100.0)}"
+     expected_price = "#{sprintf('%.2f', (raw_invoice_item.unit_price/100))}"
      expect(response).to be_success
      expect(invoice_item["unit_price"]).to eq(expected_price)
    end
@@ -151,7 +151,7 @@ describe "Invoice-Items API" do
      expect(invoice_items.first["quantity"]).to eq(raw_invoice_items.first.quantity)
    end
 
-   xit "finds all invoice items by unit price" do
+   it "finds all invoice items by unit price" do
        create_list(:invoice_item, 2, unit_price: 1000)
 
        get "/api/v1/invoice_items/find_all?unit_price=1000"
@@ -194,35 +194,5 @@ describe "Invoice-Items API" do
          expect(invoice_item["invoice_id"]).to eq(invoice.id)
        end
     end
-
-    require 'rails_helper'
-
-  context "get to invoice_items/:id/invoice" do
-    it "returns the associated invoice" do
-      raw_invoice = create(:invoice)
-      invoice_item = create(:invoice_item, invoice_id: raw_invoice.id)
-
-      get "/api/v1/invoice_items/#{invoice_item.id}/invoice"
-      invoice = JSON.parse(response.body)
-
-      expect(response).to be_success
-      expect(invoice).to be_instance_of(Hash)
-      expect(invoice["id"]).to eq(raw_invoice.id)
-    end
-   end
-
-  context "get to invoice_items/:id/item" do
-    it "returns the associated item" do
-      raw_item = create(:item)
-      invoice_item = create(:invoice_item, item_id: raw_item.id)
-
-      get "/api/v1/invoice_items/#{invoice_item.id}/item"
-      item = JSON.parse(response.body)
-
-      expect(response).to be_success
-      expect(item).to be_instance_of(Hash)
-      expect(item["id"]).to eq(raw_item.id)
-    end
-   end
   end
 end
