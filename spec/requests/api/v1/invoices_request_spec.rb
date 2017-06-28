@@ -46,10 +46,10 @@ describe "Invoices API" do
       expect(invoice["id"]).to eq(raw_invoice.id)
    end
 
-    xit "finds one invoice by status, case-insensitve" do
+    it "finds one invoice by status" do
       raw_invoice = create(:invoice)
 
-      get "/api/v1/invoices/find?status=#{raw_invoice.status.upcase}"
+      get "/api/v1/invoices/find?status=#{raw_invoice.status}"
 
       invoice = JSON.parse(response.body)
 
@@ -125,10 +125,10 @@ describe "Invoices API" do
      expect(invoices.first["id"]).to eq(raw_invoices.first.id)
    end
 
-   xit "finds all invoices by status, case-insensitve" do
+   it "finds all invoices by status" do
        create_list(:invoice, 2, status: "shipped")
 
-       get "/api/v1/invoices/find_all?status=SHIPPED"
+       get "/api/v1/invoices/find_all?status=shipped"
 
        invoices = JSON.parse(response.body)
 

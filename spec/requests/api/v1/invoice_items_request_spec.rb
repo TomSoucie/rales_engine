@@ -195,8 +195,6 @@ describe "Invoice-Items API" do
        end
     end
 
-    require 'rails_helper'
-
   context "get to invoice_items/:id/invoice" do
     it "returns the associated invoice" do
       raw_invoice = create(:invoice)
