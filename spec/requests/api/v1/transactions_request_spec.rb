@@ -41,4 +41,18 @@ describe "Transactions API" do
     expect(raw_transaction).to have_key("credit_card_number")
     expect(raw_transaction["credit_card_number"]).to be_a String
   end
+
+  context "get to transactions/:id/invoice" do
+    it "returns the associated invoice" do
+     raw_invoice = create(:invoice)
+     raw_transaction = create(:transaction, invoice_id: raw_invoice.id)
+
+     get "/api/v1/transactions/#{raw_transaction.id}/invoice"
+     invoice = JSON.parse(response.body)
+
+     expect(response).to be_success
+     expect(invoice).to be_instance_of(Hash)
+     expect(invoice["id"]).to eq(raw_invoice.id)
+   end
+  end
 end
