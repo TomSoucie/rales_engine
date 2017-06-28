@@ -15,4 +15,16 @@ describe "Merchant url params returns single merchant" do
     expect(merchant["id"]).to be_a Integer
     expect(merchant["id"]).to eq(id)
   end
+
+  xit "finds a merchant by name" do
+    merchants = create(:merchant)
+    name = merchants.first.name
+
+    get "/api/v1/merchants/find?name=#{name}"
+
+    expect(response).to be_success
+     
+
+
+  end
 end
