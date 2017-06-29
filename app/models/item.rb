@@ -14,7 +14,16 @@ class Item < ApplicationRecord
       .joins(invoices: [:invoice_items, :transactions])
       .where(transactions: {result: 'success'})
       .order('revenue DESC')
-      .group('merchants.id')
+      .group('items.id')
+      .limit(amount)
+  end
+
+  def self.top_x_items_items(amount)
+    select("items.*, SUM(invoice_items.quantity) AS most_items")
+      .joins(invoices: [:invoice_items, :transactions])
+      .where(transactions: {result: 'success'})
+      .order('most_items DESC')
+      .group('items.id')
       .limit(amount)
   end
 end
