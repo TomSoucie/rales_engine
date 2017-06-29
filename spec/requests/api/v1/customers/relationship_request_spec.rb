@@ -4,34 +4,35 @@ describe "Customers have relationships with invoices and transactions" do
   context "GET to customers/:id/invoices" do
     it "returns associated collection of invoices" do
       customer = create(:customer)
-      invoices = create_list(:invoice, 2, merchant_id: merchant.id)
+      invoices = create_list(:invoice, 2, customer_id: customer.id)
 
-      get "/api/v1/merchants/#{merchant.id}/invoices"
+      get "/api/v1/customers/#{customer.id}/invoices"
 
       invoices = JSON.parse(response.body)
 
       expect(response).to be_success
       expect(invoices).to be_instance_of(Array)
       invoices.each do |invoice|
-        expect(invoice["merchant_id"]).to eq(merchant.id)
+        expect(invoice["customer_id"]).to eq(customer.id)
       end
     end
   end
 
-  context "GET to merchants/:id/items" do
-    it "returns associated collection of items" do
-      merchant = create(:merchant)
+  context "GET to customers/:id/transactions" do
+    it "returns associated collection of transactions" do
+      customer = create(:customer)
+      invoice = create(:invoice, customer_id: customer.id)
+      transactions = create_list(:transaction, 2, invoice_id: invoice.id)
 
-      items = create_list(:item, 2, merchant_id: merchant.id)
+      get "/api/v1/customers/#{customer.id}/transactions"
 
-      get "/api/v1/merchants/#{merchant.id}/items"
-
-      items = JSON.parse(response.body)
+      transactions = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(items).to be_instance_of(Array)
-      items.each do |item|
-        expect(item["merchant_id"]).to eq(merchant.id)
+      expect(transactions).to be_instance_of(Array)
+      expect(transactions.count).to eq(2)
+      transactions.each do |t|
+        expect(t["invoice_id"]).to eq(invoice.id)
       end
     end
   end
