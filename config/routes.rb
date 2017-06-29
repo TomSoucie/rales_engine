@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       end
 
       namespace :transactions do
+        get 'find_all',      to: 'finder#index'
         get 'find',          to: 'finder#show'
         get ':id/invoice',   to: 'invoice#show'
         get 'random',        to: 'random#show'
