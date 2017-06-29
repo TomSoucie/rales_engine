@@ -5,6 +5,11 @@ class Merchant < ApplicationRecord
   has_many :invoices
   has_many :customers, through: :invoices
 
+  def self.random
+    offset = rand(Merchant.count)
+    Merchant.offset(offset).first
+  end
+  
   def self.top_x_merchants_revenue(amount)
     select("merchants.*, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue")
       .joins(invoices: [:invoice_items, :transactions])
