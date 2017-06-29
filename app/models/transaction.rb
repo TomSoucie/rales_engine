@@ -9,4 +9,9 @@ class Transaction < ApplicationRecord
   validates :invoice_id, presence: true
 
   belongs_to :invoice
+
+  def self.random
+    offset = rand(Transaction.count)
+    Transaction.offset(offset).first
+  end
 end
