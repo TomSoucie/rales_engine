@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "GET request to merchants with /most_revenue" do
-  it "returns the top x merchants ranked by total revenue" do
+describe "GET request to merchants with /most_items" do
+  it "returns the top x merchants ranked by total items sold" do
     merchant1 = create(:merchant)
     merchant2 = create(:merchant)
     item1 = create(:item, merchant_id: merchant1.id, unit_price: 1000)
@@ -21,7 +21,7 @@ describe "GET request to merchants with /most_revenue" do
     create(:transaction, invoice_id: invoice1.id, result: "success")
     create(:transaction, invoice_id: invoice2.id, result: "success")
 
-    get "/api/v1/merchants/most_revenue?quantity=2"
+    get "/api/v1/merchants/most_items?quantity=2"
     merchants = JSON.parse(response.body)
 
     expect(response).to be_success

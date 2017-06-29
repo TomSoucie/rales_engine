@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         get 'random',             to: 'random#show'
         get ':id/invoice_items',  to: 'invoice_items#index'
         get ':id/merchant',       to: 'merchant#show'
+        get 'most_revenue',        to: 'most_revenue#index'
       end
 
       namespace :invoices do
@@ -29,17 +30,14 @@ Rails.application.routes.draw do
       end
 
       namespace :customers do
-        get ':id/invoices',     to: 'invoices#index'
+        get ':id/invoices',      to: 'invoices#index'
         get ':id/transactions',  to: 'transactions#index'
       end
 
-      # namespace :invoices do
-      #   get '/find', to: 'invoices#show'
-      # end
-      #
-      # namespace :invoice_items do
-      #   get '/find', to: 'invoice_items#show'
-      # end
+      namespace :merchants do
+        get 'most_revenue',   to: 'most_revenue#index'
+        get 'most_items',     to: 'most_items#index'
+      end
 
       resources :items, only: [:index, :show]
       resources :invoices, only: [:index, :show]
