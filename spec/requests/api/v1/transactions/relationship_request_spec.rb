@@ -17,8 +17,6 @@ describe "Transactions have a relationship to an invoice" do
       expect(invoice["id"]).to be_a Integer
       # expect(invoice_transaction["invoice_id"]).to eq(invoice_id)
       # expect(invoice_transaction["invoice_id"]).to be_a Integer
-
-
     end
   end
 end
