@@ -9,13 +9,20 @@ class Api::V1::InvoiceItems::FinderController < ApplicationController
 
   private
 
+    def unit_price_adjust(whitelist)
+      if whitelist["unit_price"]
+        whitelist["unit_price"] = whitelist["unit_price"].gsub('.', '')
+      end
+      return whitelist
+    end
+
     def invoice_item_params
-      params.permit(:id,
+      unit_price_adjust(params.permit(:id,
                     :item_id,
                     :invoice_id,
                     :quantity,
                     :unit_price,
                     :updated_at,
-                    :created_at)
+                    :created_at))
     end
 end
