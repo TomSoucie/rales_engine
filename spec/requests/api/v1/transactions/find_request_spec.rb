@@ -113,4 +113,103 @@ describe "Transactions can be found from url params" do
 
     expect(transaction_ids).to include(transaction["id"])
   end
+
+  it "finds all transactions by id" do
+    new_transactions = create_list(:transaction, 3)
+    id = new_transactions.first.id
+
+    get "/api/v1/transactions/find_all?id=#{id}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["id"]).to eq(id)
+  end
+
+  it "finds all transactions by credit_card_number" do
+    new_transactions = create_list(:transaction, 3)
+    cc = new_transactions.first.credit_card_number
+
+    get "/api/v1/transactions/find_all?credit_card_number=#{cc}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["credit_card_number"]).to eq(cc)
+  end
+
+  it "finds all transactions by credit_card_expiration_date" do
+    new_transactions = create_list(:transaction, 3)
+    cc_expiry = new_transactions.first.credit_card_expiration_date
+
+    get "/api/v1/transactions/find_all?credit_card_expiration_date=#{cc_expiry}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["credit_card_expiration_date"].to_s).to eq(cc_expiry)
+  end
+
+  it "finds all transactions by result" do
+    new_transactions = create_list(:transaction, 3)
+    first_result = new_transactions.first.result
+
+    get "/api/v1/transactions/find_all?result=#{first_result}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["result"]).to eq(first_result)
+  end
+
+
+  it "finds all transactions by created_at" do
+    new_transactions = create_list(:transaction, 3)
+    create_time = new_transactions.first.created_at
+
+    get "/api/v1/transactions/find_all?created_at=#{create_time}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["id"]).to eq(new_transactions.first.id)
+  end
+
+  it "finds all transactions by updated_at" do
+    new_transactions = create_list(:transaction, 3)
+    update_time = new_transactions.first.updated_at
+
+    get "/api/v1/transactions/find_all?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["id"]).to eq(new_transactions.first.id)
+  end
+
+  it "finds all transactions by an invoice" do
+    new_transactions = create_list(:transaction, 3)
+    invoice = new_transactions.first.invoice_id
+
+    get "/api/v1/transactions/find_all?invoice_id=#{invoice}"
+
+    expect(response).to be_success
+
+    transactions = JSON.parse(response.body)
+
+    expect(transactions).to be_a Array
+    expect(transactions.first["invoice_id"]).to eq(invoice)
+  end
 end
