@@ -15,7 +15,8 @@ describe "Customers can be found from url params" do
     expect(customer["id"]).to be_a Integer
     expect(customer["id"]).to eq(id)
   end
-  xit "finds a customer by first_name" do
+
+  it "finds a customer by first_name" do
     customers = create_list(:customer, 3)
     name = customers.first.first_name
 
@@ -29,7 +30,7 @@ describe "Customers can be found from url params" do
     expect(customer["first_name"]).to eq(name)
   end
 
-  xit "finds a customer by last_name" do
+  it "finds a customer by last_name" do
     customers = create_list(:customer, 3)
     name = customers.first.last_name
 
