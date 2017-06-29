@@ -42,9 +42,6 @@ describe "Merchants can be found from url params" do
     merchant = JSON.parse(response.body)
 
     expect(merchant["id"]).to eq(raw_merchant.id)
-    # expect(merchant).to have_key("created_at")
-    # expect(merchant["created_at"]).to be_a String
-    # expect(merchant["created_at"]).to eq(create_time)
   end
 
   it "finds a merchant by updated_at" do
