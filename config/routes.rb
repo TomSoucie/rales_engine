@@ -10,12 +10,13 @@ Rails.application.routes.draw do
         get ':id/merchant',       to: 'merchant#show'
         get 'most_revenue',       to: 'most_revenue#index'
         get 'most_items',         to: 'most_items#index'
+        get ':id/best_day',       to: 'best_day#show'
       end
 
       namespace :invoices do
-        get 'find_all', to: 'finder#index'
-        get 'find',     to: 'finder#show'
-        get 'random',   to: 'random#show'
+        get 'find_all',     to: 'finder#index'
+        get 'find',         to: 'finder#show'
+        get 'random',       to: 'random#show'
       end
 
       namespace :invoice_items do

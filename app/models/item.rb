@@ -26,4 +26,8 @@ class Item < ApplicationRecord
       .group('items.id')
       .limit(amount)
   end
+
+  def self.best_day
+    select("items.*")
+  end
 end
