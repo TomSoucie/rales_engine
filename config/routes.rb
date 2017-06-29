@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         get '/:id/items',           to: 'items#index'
         get '/:id/customer',        to: 'customer#show'
         get '/:id/merchant',        to: 'merchant#show'
-        get '/random',       to: 'random#show'
+        get '/random',              to: 'random#show'
       end
 
       namespace :invoice_items do
@@ -55,6 +55,7 @@ Rails.application.routes.draw do
         get '/:id/items',      to: 'items#index'
         get '/most_revenue',   to: 'most_revenue#index'
         get '/most_items',     to: 'most_items#index'
+        get '/:id/revenue',    to: 'revenue#show'
       end
 
       resources :items, only: [:index, :show]
