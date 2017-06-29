@@ -48,9 +48,9 @@ describe "Customers can be found from url params" do
     get "/api/v1/customers/random"
     expect(response).to be_success
 
-    transaction = JSON.parse(response.body)
-    transaction_ids = Transaction.all.map { |m| m.id }
+    customer = JSON.parse(response.body)
+    customer_ids = Customer.all.map { |m| m.id }
 
-    expect(transaction_ids).to include(transaction["id"])
+    expect(customer_ids).to include(customer["id"])
   end
 end
