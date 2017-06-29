@@ -27,7 +27,9 @@ class Item < ApplicationRecord
       .limit(amount)
   end
 
-  def self.best_day
-    select("items.*")
+  def best_day
+    {"best_day" => invoices.joins(:invoice_items)
+     .order("invoice_items.quantity DESC, invoices.created_at DESC")
+     .first.created_at}
   end
 end
