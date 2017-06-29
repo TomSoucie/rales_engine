@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "It has URI-accessible relationships" do
-  context "get to items/:id/invoice_items" do
+  context "get to invoices/:id/invoice_items" do
     it "returns the associated invoice items" do
        raw_item = create(:item)
        invoice_item = create_list(:invoice_item, 2, item_id: raw_item.id)
