@@ -58,7 +58,6 @@ describe "Merchants can be found from url params" do
     merchant = JSON.parse(response.body)
 
     expect(merchant["id"]).to eq(raw_merchant.id)
-
   end
 
   it "finds a random merchant" do
@@ -71,5 +70,61 @@ describe "Merchants can be found from url params" do
     merchant_ids = Merchant.all.map { |m| m.id }
 
     expect(merchant_ids).to include(merchant["id"])
+  end
+
+  it "finds all merchants by id" do
+    new_merchants = create_list(:merchant, 3)
+    id = new_merchants.first.id
+
+    get "/api/v1/merchants/find_all?id=#{id}"
+
+    expect(response).to be_success
+
+    merchants = JSON.parse(response.body)
+
+    expect(merchants).to be_a Array
+    expect(merchants.first["id"]).to eq(id)
+  end
+
+  it "finds all merchants by name" do
+    new_merchants = create_list(:merchant, 3)
+    name = new_merchants.first.name
+
+    get "/api/v1/merchants/find_all?name=#{name}"
+
+    expect(response).to be_success
+
+    merchants = JSON.parse(response.body)
+
+    expect(merchants).to be_a Array
+    expect(merchants.first["name"]).to eq(name)
+  end
+
+  it "finds all merchants by created_at" do
+    new_merchants = create_list(:merchant, 3)
+    create_time = new_merchants.first.created_at
+
+    get "/api/v1/merchants/find_all?created_at=#{create_time}"
+
+    expect(response).to be_success
+
+    merchants = JSON.parse(response.body)
+
+    expect(merchants).to be_a Array
+    expect(merchants.first["id"]).to eq(new_merchants.first.id)
+  end
+
+  it "finds all merchants by updated_at" do
+    new_merchants = create_list(:merchant, 3)
+    update_time = new_merchants.first.updated_at
+
+    get "/api/v1/merchants/find_all?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    merchants = JSON.parse(response.body)
+
+    expect(merchants).to be_a Array
+    expect(merchants.first["id"]).to eq(new_merchants.first.id)
   end
 end
