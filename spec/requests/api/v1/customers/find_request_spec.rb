@@ -54,4 +54,99 @@ describe "Customers can be found from url params" do
 
     expect(customer_ids).to include(customer["id"])
   end
+
+  it "finds a customer by created_at" do
+    new_customer = create(:customer)
+    create_time = new_customer.created_at
+
+    get "/api/v1/customers/find?created_at=#{create_time}"
+
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+
+    expect(customer["id"]).to eq(new_customer.id)
+  end
+
+  it "finds a customer by updated_at" do
+    new_customer = create(:customer)
+    update_time = new_customer.updated_at
+
+    get "/api/v1/customers/find?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    customer = JSON.parse(response.body)
+
+    expect(customer["id"]).to eq(new_customer.id)
+  end
+
+  it "finds all customers by id" do
+    customers = create_list(:customer, 3)
+    id = customers.first.id
+
+    get "/api/v1/customers/find_all?id=#{id}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(id)
+  end
+
+  it "finds all customers by first_name" do
+    new_customers = create_list(:customer, 3)
+    name = new_customers.first.first_name
+
+    get "/api/v1/customers/find_all?first_name=#{name}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["first_name"]).to eq(name)
+  end
+
+  it "finds all customers by last_name" do
+    new_customers = create_list(:customer, 3)
+    name = new_customers.first.last_name
+
+    get "/api/v1/customers/find_all?last_name=#{name}"
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["last_name"]).to eq(name)
+  end
+
+  it "finds all customers by created_at" do
+    new_customers = create_list(:customer, 3)
+    create_time = new_customers.first.created_at
+
+    get "/api/v1/customers/find_all?created_at=#{create_time}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(new_customers.first.id)
+  end
+
+  it "finds all customers by updated_at" do
+    new_customers = create_list(:customer, 3)
+    update_time = new_customers.first.updated_at
+
+    get "/api/v1/customers/find_all?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(new_customers.first.id)
+  end
 end
