@@ -42,4 +42,15 @@ describe "Customers can be found from url params" do
     expect(customer["last_name"]).to be_a String
     expect(customer["last_name"]).to eq(name)
   end
+  it "finds a random customer" do
+    create_list(:customer, 3)
+
+    get "/api/v1/customers/random"
+    expect(response).to be_success
+
+    transaction = JSON.parse(response.body)
+    transaction_ids = Transaction.all.map { |m| m.id }
+
+    expect(transaction_ids).to include(transaction["id"])
+  end
 end
