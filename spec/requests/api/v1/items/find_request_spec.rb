@@ -59,7 +59,7 @@ describe "it can find items in many ways" do
 
    it "finds one item by date updated" do
      new_item = create(:item)
-
+   
      get "/api/v1/items/find?updated_at=#{new_item.updated_at}"
 
      item = JSON.parse(response.body)
