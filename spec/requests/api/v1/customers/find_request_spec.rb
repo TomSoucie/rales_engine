@@ -81,46 +81,72 @@ describe "Customers can be found from url params" do
     expect(customer["id"]).to eq(new_customer.id)
   end
 
-  xit "finds all customers by id" do
+  it "finds all customers by id" do
     customers = create_list(:customer, 3)
     id = customers.first.id
 
-    get "/api/v1/customers/find?id=#{id}"
+    get "/api/v1/customers/find_all?id=#{id}"
 
     expect(response).to be_success
 
-    customer = JSON.parse(response.body)
+    customers = JSON.parse(response.body)
 
-    expect(customer).to have_key("id")
-    expect(customer["id"]).to be_a Integer
-    expect(customer["id"]).to eq(id)
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(id)
   end
 
-  xit "finds all customers by first_name" do
-    customers = create_list(:customer, 3)
-    name = customers.first.first_name
+  it "finds all customers by first_name" do
+    new_customers = create_list(:customer, 3)
+    name = new_customers.first.first_name
 
-    get "/api/v1/customers/find?first_name=#{name}"
+    get "/api/v1/customers/find_all?first_name=#{name}"
+
     expect(response).to be_success
 
-    customer = JSON.parse(response.body)
+    customers = JSON.parse(response.body)
 
-    expect(customer).to have_key("first_name")
-    expect(customer["first_name"]).to be_a String
-    expect(customer["first_name"]).to eq(name)
+    expect(customers).to be_a Array
+    expect(customers.first["first_name"]).to eq(name)
   end
 
-  xit "finds all customers by last_name" do
-    customers = create_list(:customer, 3)
-    name = customers.first.last_name
+  it "finds all customers by last_name" do
+    new_customers = create_list(:customer, 3)
+    name = new_customers.first.last_name
 
-    get "/api/v1/customers/find?last_name=#{name}"
+    get "/api/v1/customers/find_all?last_name=#{name}"
     expect(response).to be_success
 
-    customer = JSON.parse(response.body)
+    customers = JSON.parse(response.body)
 
-    expect(customer).to have_key("last_name")
-    expect(customer["last_name"]).to be_a String
-    expect(customer["last_name"]).to eq(name)
+    expect(customers).to be_a Array
+    expect(customers.first["last_name"]).to eq(name)
+  end
+
+  it "finds all customers by created_at" do
+    new_customers = create_list(:customer, 3)
+    create_time = new_customers.first.created_at
+
+    get "/api/v1/customers/find_all?created_at=#{create_time}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(new_customers.first.id)
+  end
+
+  it "finds all customers by updated_at" do
+    new_customers = create_list(:customer, 3)
+    update_time = new_customers.first.updated_at
+
+    get "/api/v1/customers/find_all?updated_at=#{update_time}"
+
+    expect(response).to be_success
+
+    customers = JSON.parse(response.body)
+
+    expect(customers).to be_a Array
+    expect(customers.first["id"]).to eq(new_customers.first.id)
   end
 end
