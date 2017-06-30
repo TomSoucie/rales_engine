@@ -1,4 +1,4 @@
-"RALES ENGINE"
+# RALES ENGINE
 
 Internal API for sales involving merchants and their transactions, invoices, items, and customers.
 
@@ -18,3 +18,31 @@ $ rake db:create
 $ rake db:migrate
 $ bundle exec rake csv_handler:all
 ```
+
+Verify Spec Harness Compliance
+
+# RalesEngine Spec Harness
+
+This gem contains an http-based spec harness for validating
+functionality on student implementations of the
+[RalesEngine](https://github.com/turingschool/lesson_plans/blob/master/ruby_03-professional_rails_applications/rails_engine.md)
+project at Turing.
+
+## Installation
+
+To use this repository, simply clone it onto your machine and bundle:
+
+```
+git clone https://github.com/turingschool/rales_engine_spec_harness.git
+cd rales_engine_spec_harness
+bundle
+```
+
+## Usage
+
+Run the tests with `rake`:
+
+OR:
+
+Run individual tests with `rake test TEST="test_path"/"test_name".rb`:
+Example : `rake test TEST=test/endpoints/transactions_test.rb`
