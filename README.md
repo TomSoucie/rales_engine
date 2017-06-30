@@ -1,24 +1,20 @@
-# README
+"RALES ENGINE"
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Internal API for sales involving merchants and their transactions, invoices, items, and customers.
 
-Things you may want to cover:
+This application uses:
 
-* Ruby version
+Ruby version 2.3.3
+Rails version 5.1.2
+PostgreSQL version 9.6.1
 
-* System dependencies
+Run Rales Engine now!
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+$ git clone https://github.com/TomSoucie/rales_engine.git
+$ cd rales_engine
+$ bundle
+$ rake db:create
+$ rake db:migrate
+$ bundle exec rake csv_handler:all
+```
