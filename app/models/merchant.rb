@@ -29,7 +29,7 @@ class Merchant < ApplicationRecord
       .limit(amount)
   end
 
-  def revenue_on_date(date)
+  def self.revenue_on_date(date)
     sprintf('%.2f', ((Invoice.where(created_at: date)
       .joins(:invoice_items, :transactions)
       .where(transactions: {result: "success"})

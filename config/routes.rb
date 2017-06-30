@@ -53,8 +53,9 @@ Rails.application.routes.draw do
         get 'random',         to: 'random#show'
         get ':id/invoices',   to: 'invoices#index'
         get ':id/items',      to: 'items#index'
-        get 'most_revenue',   to: 'most_revenue#index'
         get 'most_items',     to: 'most_items#index'
+        get 'most_revenue',   to: 'all_revenue#index'
+        get 'revenue',        to: 'all_revenue#show'
         get ':id/revenue',    to: 'revenue#show'
       end
 
