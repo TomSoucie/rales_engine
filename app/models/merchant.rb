@@ -45,6 +45,15 @@ class Merchant < ApplicationRecord
     .sum("invoice_items.quantity * invoice_items.unit_price"))/100.0))}
   end
 
+  def revenue_by_date(date)
+    {"revenue" => sprintf('%.2f',
+    ((invoices.where(invoices: {created_at: date})
+    .joins(:transactions)
+    .where(transactions: {result: "success"})
+    .joins(:invoice_items)
+    .sum("invoice_items.quantity * invoice_items.unit_price"))/100.0))}
+  end
+
   def favorite_customer
     customers.select("customers.*, count(invoices.customer_id) as invoice_count")
       .joins(invoices: :transactions)
