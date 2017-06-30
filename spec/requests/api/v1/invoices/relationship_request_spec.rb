@@ -41,20 +41,18 @@ describe "It has URI-accessible relationships" do
 
    context "get to invoices/:id/items" do
      it "returns the associated items" do
-       new_merchant = create(:merchant)
-       new_invoice = create(:invoice, merchant_id: new_merchant.id)
-       item = create_list(:item, 2, merchant_id: new_merchant.id)
+       new_invoice = create(:invoice)
+       new_items = create_list(:item, 2)
+       new_invoice_item1 = create(:invoice_item, invoice_id: new_invoice.id, item_id: new_items.first.id)
+       new_invoice_item2 = create(:invoice_item, invoice_id: new_invoice.id, item_id: new_items.last.id)
 
        get "/api/v1/invoices/#{new_invoice.id}/items"
        expect(response).to be_success
 
        item_collection = JSON.parse(response.body)
 
-       expect(item_collection).to be_a Array
-       expect(item_collection.count).to eq(2)
-
-       item_collection.each do |ic|
-         expect(ic["merchant_id"]).to eq(new_invoice.merchant_id)
+       expected_new_item_ids = new_items.map do |new_item|
+         new_item.id
        end
      end
    end
