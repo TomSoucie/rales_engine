@@ -37,8 +37,8 @@ class Merchant < ApplicationRecord
   end
 
   def revenue
-    binding.pry
+    # binding.pry
     # invoice_items.sum("unit_price * quantity")
-    invoice_items.select
+    # invoice_items.select
   end
 end

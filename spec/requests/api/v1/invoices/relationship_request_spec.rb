@@ -51,17 +51,16 @@ describe "It has URI-accessible relationships" do
        item_collection = JSON.parse(response.body)
 
        expect(item_collection).to be_a Array
-       binding.pry
        expect(item_collection.count).to eq(2)
 
-       items_collection.each do |ic|
+       item_collection.each do |ic|
          expect(ic["merchant_id"]).to eq(new_invoice.merchant_id)
        end
      end
    end
 
    context "get to invoices/:id/customer" do
-     xit "returns the associated customer" do
+     it "returns the associated customer" do
        new_customer = create(:customer)
        new_invoice = create(:invoice, customer_id: new_customer.id)
 
@@ -70,13 +69,23 @@ describe "It has URI-accessible relationships" do
 
        customer = JSON.parse(response.body)
 
-       expect(customer)
+       expect(customer).to be_a Hash
+       expect(customer["id"]).to eq(new_customer.id)
      end
    end
 
    context "get to invoices/:id/merchant" do
-     xit "returns the associated merchant" do
+     it "returns the associated merchant" do
+       new_merchant = create(:merchant)
+       new_invoice = create(:invoice, merchant_id: new_merchant.id)
 
+       get "/api/v1/invoices/#{new_invoice.id}/merchant"
+       expect(response).to be_success
+
+       merchant = JSON.parse(response.body)
+
+       expect(merchant).to be_a Hash
+       expect(merchant["id"]).to eq(new_merchant.id)
      end
    end
 end
