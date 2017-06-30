@@ -5,6 +5,7 @@ class Merchant < ApplicationRecord
   has_many :invoices
   has_many :customers, through: :invoices
   has_many :invoice_items, through: :invoices
+  has_many :transactions, through: :invoices
 
   def self.random
     offset = rand(Merchant.count)
@@ -30,15 +31,23 @@ class Merchant < ApplicationRecord
   end
 
   def self.revenue_on_date(date)
-    sprintf('%.2f', ((Invoice.where(created_at: date)
+    {"total_revenue" => sprintf('%.2f', ((Invoice.where(created_at: date)
       .joins(:invoice_items, :transactions)
       .where(transactions: {result: "success"})
-      .sum("unit_price * quantity"))/100.0))
+      .sum("unit_price * quantity"))/100.0))}
   end
 
   def revenue
     # binding.pry
     # invoice_items.sum("unit_price * quantity")
     # invoice_items.select
+  end
+
+  def favorite_customer
+    customers.select("customers.*, count(invoices.customer_id) as invoice_count")
+      .joins(:transactions)
+      .where(transactions: {result: "success"})
+      .group(:id)
+      .order("invoice_count desc").first
   end
 end

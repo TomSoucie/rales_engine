@@ -40,11 +40,12 @@ Rails.application.routes.draw do
       end
 
       namespace :customers do
-        get 'find_all',           to: 'finder#index'
-        get 'find',               to: 'finder#show'
-        get ':id/invoices',       to: 'invoices#index'
-        get ':id/transactions',   to: 'transactions#index'
-        get 'random',             to: 'random#show'
+        get 'find_all',               to: 'finder#index'
+        get 'find',                   to: 'finder#show'
+        get ':id/invoices',           to: 'invoices#index'
+        get ':id/transactions',       to: 'transactions#index'
+        get ':id/favorite_merchant',  to: 'merchants#show'
+        get 'random',                 to: 'random#show'
       end
 
       namespace :merchants do
