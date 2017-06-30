@@ -38,9 +38,11 @@ class Merchant < ApplicationRecord
   end
 
   def revenue
-    # binding.pry
-    # invoice_items.sum("unit_price * quantity")
-    # invoice_items.select
+    {"revenue" => sprintf('%.2f',
+    ((invoices.joins(:transactions)
+    .where(transactions: {result: "success"})
+    .joins(:invoice_items)
+    .sum("invoice_items.quantity * invoice_items.unit_price"))/100.0))}
   end
 
   def favorite_customer
