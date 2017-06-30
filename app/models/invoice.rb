@@ -11,6 +11,9 @@ class Invoice < ApplicationRecord
   has_many :invoice_items
   has_many :items, through: :merchant
 
+  scope :successful, -> {joins(:transactions).where('result = ?', 'success')}
+  scope :failed, -> {joins(:transactions).where('result = ?', 'failed')}
+
   def self.most_expensive(limit = 5)
     select("invoices.*, sum(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
       .joins(:invoice_items, :transactions).where(transactions: {result: "success"})

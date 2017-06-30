@@ -18,18 +18,21 @@ class Item < ApplicationRecord
       .limit(amount)
   end
 
-  def self.top_x_items_items(amount)
-    select("items.*, SUM(invoice_items.quantity) AS most_items")
-      .joins(invoices: [:invoice_items, :transactions])
-      .where(transactions: {result: 'success'})
-      .order('most_items DESC')
-      .group('items.id')
-      .limit(amount)
+  def self.top_x_items_sold(amount)
+    joins(:invoices)
+    .merge(Invoice.successful)
+    .group(:id)
+    .order("sum(invoice_items.quantity) DESC")
+    .first(amount)
   end
 
   def best_day
-    {"best_day" => invoices.joins(:invoice_items)
-     .order("invoice_items.quantity DESC, invoices.created_at DESC")
-     .first.created_at}
+    {"best_day" => invoices
+     .joins(:invoice_items)
+     .group(:id)
+     .group(:created_at)
+     .order("sum(invoice_items.quantity) DESC")
+     .first
+     .created_at}
   end
 end
