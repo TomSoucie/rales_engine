@@ -9,7 +9,7 @@ class Invoice < ApplicationRecord
 
   has_many :transactions
   has_many :invoice_items
-  has_many :items, through: :invoice_items
+  has_many :items, through: :merchant
 
   def self.most_expensive(limit = 5)
     select("invoices.*, sum(invoice_items.quantity * invoice_items.unit_price) AS total_revenue")
