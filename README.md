@@ -19,7 +19,42 @@ $ rake db:migrate
 $ bundle exec rake csv_handler:all
 ```
 
-Verify Spec Harness Compliance
+Relationship and Business Intelligence endpoints
+```
+/api/v1/merchants/:id/invoices
+/api/v1/merchants/:id/items
+/api/v1/merchants/:id/revenue
+/api/v1/merchants/:id/revenue?date=x
+/api/v1/merchants/:id/customers_with_pending_invoices
+/api/v1/merchants/:id/favorite_customer
+/api/v1/merchants/most_revenue?quantity=x
+/api/v1/merchants/most_items?quantity=x
+
+
+/api/v1/customers/:id/favorite_merchant
+
+/api/v1/items/:id/invoice_items
+/api/v1/items/:id/merchant
+/api/v1/items/:id/best_day
+/api/v1/items/most_items?quantity=x
+/api/v1/items/most_revenue?quantity=x
+
+/api/v1/invoices/:id/transactions
+/api/v1/invoices/:id/invoice_items
+/api/v1/invoices/:id/items
+/api/v1/invoices/:id/customer
+/api/v1/invoices/:id/merchant
+
+/api/v1/invoice_items/:id/invoice
+/api/v1/invoice_items/:id/item
+
+/api/v1/transactions/:id/invoice
+
+/api/v1/customers/:id/invoices
+/api/v1/customers/:id/transactions
+```
+
+### Verify Spec Harness Compliance
 
 # RalesEngine Spec Harness
 
